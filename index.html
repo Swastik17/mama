@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>The Ultimate Birthday Window</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #8E2DE2, #4A00E0);
+            background-size: 200% 200%;
+            animation: gradient 5s linear infinite alternate;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%;}
+            100% { background-position: 100% 50%;}
+        }
+        .window {
+            background-color: #fff;
+            border: 5px solid #ccc;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 100%;
+            border-radius: 20px;
+            position: relative;
+        }
+        t{
+            font-family: 'Pacifico', cursive;
+            color: #4A00E0;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .message-btn {
+            background-color: #4A00E0;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .message-container {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+        .message {
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .submit-btn {
+            background-color: #4A00E0;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .saved-messages {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .saved-message {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;  
+        }
+
+        saved-messages {
+            text-align: left;
+            margin-top: 20px;
+            max-height: 150px; /* Set a maximum height for the container */
+            overflow-y: auto; /* Add a vertical scrollbar if needed */
+            border: 1px solid #ccc; /* Add a border for visibility */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .saved-message {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="window">
+        <t>🎉 Happy Birthday Mom! 🎉</t>
+        <img id="lala"  src="ki.jpg" >
+        <button class="message-btn">Leave a Special Message</button>
+        <div class="message-container" id="messageContainer" style="display: none;">
+            <textarea class="message" rows="4" cols="50" placeholder="Write your message here..."></textarea>
+            <br>
+            <button class="submit-btn" onclick="submitMessage()">Submit</button>
+        </div>
+        <div class="saved-messages" id="savedMessages">
+            <!-- Saved messages will appear here -->
+        </div>
+    </div>
+
+    <script>
+        function submitMessage() {
+            var message = document.querySelector('.message').value;
+            if (message !== '') {
+                saveMessage(message);
+                alert('Your message has been sent! 💌');
+                document.querySelector('.message').value = '';
+            }
+        }
+
+        function saveMessage(message) {
+            var savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
+            savedMessages.push(message);
+            localStorage.setItem('savedMessages', JSON.stringify(savedMessages));
+            displaySavedMessages();
+        }
+
+        function displaySavedMessages() {
+            var savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
+            var savedMessagesContainer = document.getElementById('savedMessages');
+            savedMessagesContainer.innerHTML = '';
+
+            savedMessages.forEach(function(message, index) {
+                var messageElement = document.createElement('div');
+                messageElement.classList.add('saved-message');
+                messageElement.innerHTML = '<strong>Message ' + (index + 1) + ':</strong> ' + message;
+                savedMessagesContainer.appendChild(messageElement);
+            });
+        }
+
+        document.querySelector('.message-btn').addEventListener('click', function() {
+            document.querySelector('.message-container').style.display = 'block';
+        });
+
+        window.onload = function() {
+            displaySavedMessages();
+        }
+    </script>
+</body>
+</html>
